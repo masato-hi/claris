@@ -12,3 +12,4 @@ log = { version = "0.4", features = ["release_max_level_error"] }
 
 [dev-dependencies]
 float-cmp = "0.6"
+tempfile = "3"

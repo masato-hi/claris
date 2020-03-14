@@ -13,4 +13,7 @@ lint:
 coverage:
 	cargo tarpaulin -o Html --output-dir target/tarpaulin/ --all
 
-.PHONY: build test style-check lint coverage
+bench:
+	rustup run nightly cargo bench --all
+
+.PHONY: build test style-check lint coverage bench

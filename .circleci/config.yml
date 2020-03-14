@@ -41,6 +41,9 @@ jobs:
       - run:
           name: Check lint
           command: make lint
+      - run:
+          name: Run benchmark
+          command: make bench
       - save_cache:
           key: cargo-lock-{{ checksum "Cargo.lock" }}
           paths:

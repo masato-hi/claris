@@ -1,0 +1,82 @@
+---
+width: 400
+height: 400
+layers:
+  - rectangle:
+      color: "#CCCCCC"
+      x: 0
+      y: 0
+      width: 400
+      height: 400
+      fill: true
+  - circle:
+      color: "#FF0000"
+      alpha: 0.5
+      x: 20
+      y: 20
+      radius: 10
+      fill: true
+  - composite:
+      color: "#FFFFFF"
+      alpha: 0.5
+      scale:
+        x: 1
+        y: 2
+      layers:
+        - style: circle
+          color: "#0000FF"
+          x: 80
+          y: 40
+          radius: 20
+        - style: circle
+          color: "#000000"
+          x: 80
+          y: 40
+          radius: 10
+  - triangle:
+      color: "#00FF00"
+      vertex:
+        - [100, 60]
+        - [80, 80]
+        - [120, 80]
+  - polygon:
+      color: "#0000FF"
+      vertex:
+        - [200, 60]
+        - [220, 100]
+        - [260, 120]
+        - [280, 80]
+  - line:
+      color: "#FFFF00"
+      points:
+        - [40, 260]
+        - [80, 260]
+        - [100, 120]
+  - curve:
+      color: "#FFFF00"
+      start: [140, 260]
+      midway: [180, 260]
+      end: [200, 120]
+  - text:
+      text: Hello World!
+      color: "#FF00FF"
+      family: Ubuntu
+      size: 14
+      weight: normal
+      slant: italic
+      x: 220
+      y: 200
+  - arc:
+      color: "#FF00FF"
+      x: 220
+      y: 300
+      radius: 40
+      start: 20
+      end: 340
+      close: true
+      stroke:
+        width: 3
+        cap: round
+      scale:
+        x: 1
+        y: 1.5
