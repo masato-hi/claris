@@ -5,8 +5,8 @@ jobs:
       - image: rust:slim-buster
     steps:
       - run:
-          name: Update apt packages
-          command: apt update && apt upgrade -y
+          name: Update apt package lists
+          command: apt update
       - run:
           name: Create checksum for apt package lists
           command: find /var/lib/apt/lists/ -type f | xargs sha1sum > /tmp/apt-cache.sum
@@ -14,6 +14,9 @@ jobs:
           keys:
             - apt-cache-{{ checksum "/tmp/apt-cache.sum" }}
             - apt-cache-
+      - run:
+          name: Update apt packages
+          commmand: apt upgrade -y
       - run:
           name: Install dependences
           command: apt install git libglib2.0-dev libcairo2-dev -y
@@ -23,7 +26,7 @@ jobs:
       - save_cache:
           key: apt-cache-{{ checksum "/tmp/apt-cache.sum" }}
           paths:
-            - "/var/lib/apt/"
+            - "/var/lib/apt"
       - checkout
       - run:
           name: rustup version
