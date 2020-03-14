@@ -22,10 +22,7 @@ impl Curve {
         let alpha = src.f32_val("alpha").unwrap_or(1.0);
         let color = src
             .string_val("color")
-            .ok_or(NodeError::Required(
-                "curve".to_string(),
-                "color".to_string(),
-            ))
+            .ok_or_else(|| NodeError::Required("curve".to_string(), "color".to_string()))
             .and_then(|x| -> Result<Color, NodeError> {
                 Color::parse(x).and_then(|c| -> Result<Color, NodeError> {
                     Ok(Color::new(c.r, c.g, c.b, alpha))
@@ -40,36 +37,30 @@ impl Curve {
 
         let start = src
             .array_val("start")
-            .ok_or(NodeError::Required(
-                "curve".to_string(),
-                "start".to_string(),
-            ))
+            .ok_or_else(|| NodeError::Required("curve".to_string(), "start".to_string()))
             .and_then(|x| -> Result<Point, NodeError> {
                 x.as_point().ok_or(NodeError::InvalidPoint)
             })?;
         let midway = src
             .array_val("midway")
-            .ok_or(NodeError::Required(
-                "curve".to_string(),
-                "midway".to_string(),
-            ))
+            .ok_or_else(|| NodeError::Required("curve".to_string(), "midway".to_string()))
             .and_then(|x| -> Result<Point, NodeError> {
-                x.as_point().ok_or(NodeError::InvalidPoint)
+                x.as_point().ok_or_else(|| NodeError::InvalidPoint)
             })?;
         let end = src
             .array_val("end")
-            .ok_or(NodeError::Required("curve".to_string(), "end".to_string()))
+            .ok_or_else(|| NodeError::Required("curve".to_string(), "end".to_string()))
             .and_then(|x| -> Result<Point, NodeError> {
-                x.as_point().ok_or(NodeError::InvalidPoint)
+                x.as_point().ok_or_else(|| NodeError::InvalidPoint)
             })?;
 
         Ok(Curve {
-            color: color,
-            stroke: stroke,
-            scale: scale,
-            start: start,
-            midway: midway,
-            end: end,
+            color,
+            stroke,
+            scale,
+            start,
+            midway,
+            end,
         })
     }
 }

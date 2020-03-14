@@ -25,14 +25,12 @@ pub struct Root {
 
 impl Root {
     pub fn parse(src: &Yaml) -> Result<Root, NodeError> {
-        let width = src.i32_val("width").ok_or(NodeError::Required(
-            "root node".to_string(),
-            "width".to_string(),
-        ))?;
-        let height = src.i32_val("height").ok_or(NodeError::Required(
-            "root node".to_string(),
-            "height".to_string(),
-        ))?;
+        let width = src
+            .i32_val("width")
+            .ok_or_else(|| NodeError::Required("root node".to_string(), "width".to_string()))?;
+        let height = src
+            .i32_val("height")
+            .ok_or_else(|| NodeError::Required("root node".to_string(), "height".to_string()))?;
         let color = src
             .string_val("color")
             .and_then(|x| -> Option<Color> {
@@ -40,25 +38,24 @@ impl Root {
                     .and_then(|c| -> Result<Color, _> { Ok(Color::new(c.r, c.g, c.b, 1.0)) })
                     .ok()
             })
-            .unwrap_or(Color::new(0, 0, 0, 0.0));
+            .unwrap_or_else(|| Color::new(0, 0, 0, 0.0));
 
         let layers = Self::parse_layers(src)?;
 
         Ok(Root {
-            width: width,
-            height: height,
-            color: color,
-            layers: layers,
+            width,
+            height,
+            color,
+            layers,
         })
     }
 
     fn parse_layers(src: &Yaml) -> Result<Vec<Layer>, NodeError> {
         let mut ret = Vec::new();
 
-        let layers = src.array_val("layers").ok_or(NodeError::Required(
-            "root node".to_string(),
-            "layers".to_string(),
-        ))?;
+        let layers = src
+            .array_val("layers")
+            .ok_or_else(|| NodeError::Required("root node".to_string(), "layers".to_string()))?;
 
         for layer in layers {
             match layer {

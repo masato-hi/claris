@@ -19,22 +19,18 @@ pub struct Circle {
 
 impl Circle {
     pub fn parse(src: &Yaml) -> Result<Circle, NodeError> {
-        let x = src.f64_val("x").ok_or(NodeError::Required(
-            "circle".to_string(),
-            "x".to_string().to_string(),
-        ))?;
+        let x = src
+            .f64_val("x")
+            .ok_or_else(|| NodeError::Required("circle".to_string(), "x".to_string()))?;
         let y = src
             .f64_val("y")
-            .ok_or(NodeError::Required("circle".to_string(), "y".to_string()))?;
+            .ok_or_else(|| NodeError::Required("circle".to_string(), "y".to_string()))?;
         let fill = src.bool_val("fill").unwrap_or(false);
         let radius = src.f64_val("radius").unwrap_or(0.0);
         let alpha = src.f32_val("alpha").unwrap_or(1.0);
         let color = src
             .string_val("color")
-            .ok_or(NodeError::Required(
-                "circle".to_string(),
-                "color".to_string(),
-            ))
+            .ok_or_else(|| NodeError::Required("circle".to_string(), "color".to_string()))
             .and_then(|x| -> Result<Color, NodeError> {
                 Color::parse(x).and_then(|c| -> Result<Color, NodeError> {
                     Ok(Color::new(c.r, c.g, c.b, alpha))
@@ -48,13 +44,13 @@ impl Circle {
             .map_or(Scale::default(), |x| -> Scale { Scale::parse(x) });
 
         Ok(Circle {
-            x: x,
-            y: y,
-            fill: fill,
-            color: color,
-            stroke: stroke,
-            scale: scale,
-            radius: radius,
+            x,
+            y,
+            fill,
+            color,
+            stroke,
+            scale,
+            radius,
         })
     }
 }

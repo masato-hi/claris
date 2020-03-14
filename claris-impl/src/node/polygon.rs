@@ -22,10 +22,7 @@ impl Polygon {
         let alpha = src.f32_val("alpha").unwrap_or(1.0);
         let color = src
             .string_val("color")
-            .ok_or(NodeError::Required(
-                "polygon".to_string(),
-                "color".to_string(),
-            ))
+            .ok_or_else(|| NodeError::Required("polygon".to_string(), "color".to_string()))
             .and_then(|x| -> Result<Color, NodeError> {
                 Color::parse(x).and_then(|c| -> Result<Color, NodeError> {
                     Ok(Color::new(c.r, c.g, c.b, alpha))
@@ -41,24 +38,23 @@ impl Polygon {
         let vertex = Self::parse_vertex(src)?;
 
         Ok(Polygon {
-            fill: fill,
-            color: color,
-            stroke: stroke,
-            scale: scale,
-            vertex: vertex,
+            fill,
+            color,
+            stroke,
+            scale,
+            vertex,
         })
     }
 
     fn parse_vertex(src: &Yaml) -> Result<Vec<Point>, NodeError> {
-        let v = src.array_val("vertex").ok_or(NodeError::Required(
-            "triangle".to_string(),
-            "vertex".to_string(),
-        ))?;
+        let v = src
+            .array_val("vertex")
+            .ok_or_else(|| NodeError::Required("triangle".to_string(), "vertex".to_string()))?;
 
         let mut vertex = Vec::new();
 
         for p in v {
-            let point = p.as_point().ok_or(NodeError::InvalidPoint)?;
+            let point = p.as_point().ok_or_else(|| NodeError::InvalidPoint)?;
             vertex.push(point);
         }
 

@@ -24,27 +24,23 @@ impl Arc {
     pub fn parse(src: &Yaml) -> Result<Arc, NodeError> {
         let x = src
             .f64_val("x")
-            .ok_or(NodeError::Required("circle".to_string(), "x".to_string()))?;
+            .ok_or_else(|| NodeError::Required("circle".to_string(), "x".to_string()))?;
         let y = src
             .f64_val("y")
-            .ok_or(NodeError::Required("circle".to_string(), "y".to_string()))?;
-        let start = src.f64_val("start").ok_or(NodeError::Required(
-            "circle".to_string(),
-            "start".to_string(),
-        ))?;
+            .ok_or_else(|| NodeError::Required("circle".to_string(), "y".to_string()))?;
+        let start = src
+            .f64_val("start")
+            .ok_or_else(|| NodeError::Required("circle".to_string(), "start".to_string()))?;
         let end = src
             .f64_val("end")
-            .ok_or(NodeError::Required("circle".to_string(), "end".to_string()))?;
+            .ok_or_else(|| NodeError::Required("circle".to_string(), "end".to_string()))?;
         let fill = src.bool_val("fill").unwrap_or(false);
         let close = src.bool_val("close").unwrap_or(false);
         let radius = src.f64_val("radius").unwrap_or(0.0);
         let alpha = src.f32_val("alpha").unwrap_or(1.0);
         let color = src
             .string_val("color")
-            .ok_or(NodeError::Required(
-                "circle".to_string(),
-                "color".to_string(),
-            ))
+            .ok_or_else(|| NodeError::Required("circle".to_string(), "color".to_string()))
             .and_then(|x| -> Result<Color, NodeError> {
                 Color::parse(x).and_then(|c| -> Result<Color, NodeError> {
                     Ok(Color::new(c.r, c.g, c.b, alpha))
@@ -58,16 +54,16 @@ impl Arc {
             .map_or(Scale::default(), |x| -> Scale { Scale::parse(x) });
 
         Ok(Arc {
-            x: x,
-            y: y,
-            start: start,
-            end: end,
-            fill: fill,
-            close: close,
-            color: color,
-            stroke: stroke,
-            scale: scale,
-            radius: radius,
+            x,
+            y,
+            start,
+            end,
+            fill,
+            close,
+            color,
+            stroke,
+            scale,
+            radius,
         })
     }
 }

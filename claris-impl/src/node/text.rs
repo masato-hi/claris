@@ -27,14 +27,14 @@ impl Text {
     pub fn parse(src: &Yaml) -> Result<Text, NodeError> {
         let x = src
             .f64_val("x")
-            .ok_or(NodeError::Required("text".to_string(), "x".to_string()))?;
+            .ok_or_else(|| NodeError::Required("text".to_string(), "x".to_string()))?;
         let y = src
             .f64_val("y")
-            .ok_or(NodeError::Required("text".to_string(), "y".to_string()))?;
+            .ok_or_else(|| NodeError::Required("text".to_string(), "y".to_string()))?;
         let alpha = src.f32_val("alpha").unwrap_or(1.0);
         let color = src
             .string_val("color")
-            .ok_or(NodeError::Required("text".to_string(), "color".to_string()))
+            .ok_or_else(|| NodeError::Required("text".to_string(), "color".to_string()))
             .and_then(|x| -> Result<Color, NodeError> {
                 Color::parse(x).and_then(|c| -> Result<Color, NodeError> {
                     Ok(Color::new(c.r, c.g, c.b, alpha))
@@ -45,10 +45,10 @@ impl Text {
             .map_or(Scale::default(), |x| -> Scale { Scale::parse(x) });
         let text = src
             .string_val("text")
-            .ok_or(NodeError::Required("text".to_string(), "text".to_string()))?;
+            .ok_or_else(|| NodeError::Required("text".to_string(), "text".to_string()))?;
         let family = src
             .string_val("family")
-            .unwrap_or(Self::DEFAULT_FAMILY.to_string());
+            .unwrap_or_else(|| Self::DEFAULT_FAMILY.to_string());
         let size = src.f64_val("size").unwrap_or(Self::DEFAULT_SIZE);
         let weight = match src.str_val("weight") {
             Some("bold") => FontWeight::Bold,
@@ -61,15 +61,15 @@ impl Text {
         };
 
         Ok(Text {
-            x: x,
-            y: y,
-            color: color,
-            scale: scale,
-            text: text,
-            size: size,
-            family: family,
-            weight: weight,
-            slant: slant,
+            x,
+            y,
+            color,
+            scale,
+            text,
+            size,
+            family,
+            weight,
+            slant,
         })
     }
 }

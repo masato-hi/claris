@@ -20,7 +20,7 @@ impl Line {
         let alpha = src.f32_val("alpha").unwrap_or(255.0);
         let color = src
             .string_val("color")
-            .ok_or(NodeError::Required("line".to_string(), "color".to_string()))
+            .ok_or_else(|| NodeError::Required("line".to_string(), "color".to_string()))
             .and_then(|x| -> Result<Color, NodeError> {
                 Color::parse(x).and_then(|c| -> Result<Color, NodeError> {
                     Ok(Color::new(c.r, c.g, c.b, alpha))
@@ -36,23 +36,22 @@ impl Line {
         let points = Self::parse_points(src)?;
 
         Ok(Line {
-            color: color,
-            stroke: stroke,
-            scale: scale,
-            points: points,
+            color,
+            stroke,
+            scale,
+            points,
         })
     }
 
     fn parse_points(src: &Yaml) -> Result<Vec<Point>, NodeError> {
-        let v = src.array_val("points").ok_or(NodeError::Required(
-            "line".to_string(),
-            "points".to_string(),
-        ))?;
+        let v = src
+            .array_val("points")
+            .ok_or_else(|| NodeError::Required("line".to_string(), "points".to_string()))?;
 
         let mut points = Vec::new();
 
         for p in v {
-            let point = p.as_point().ok_or(NodeError::InvalidPoint)?;
+            let point = p.as_point().ok_or_else(|| NodeError::InvalidPoint)?;
             points.push(point);
         }
 

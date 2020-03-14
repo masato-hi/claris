@@ -33,11 +33,11 @@ impl SourceLoader {
         let mut file = File::open(path).map_err(|_| LoadError::OpenError(path.to_string()))?;
         let mut data = String::new();
         file.read_to_string(&mut data)
-            .or(Err(LoadError::ReadError(path.to_string())))?;
+            .or_else(|_| Err(LoadError::ReadError(path.to_string())))?;
         let docs = YamlLoader::load_from_str(&data)
             .map_err(|_| LoadError::ParseError(path.to_string()))?;
 
-        if docs.len() < 1 {
+        if docs.is_empty() {
             return Err(LoadError::NoEntryError);
         } else if docs.len() > 1 {
             return Err(LoadError::TooManyEntryError);
@@ -45,6 +45,6 @@ impl SourceLoader {
 
         let doc = &docs[0];
 
-        return Ok(doc.clone());
+        Ok(doc.clone())
     }
 }

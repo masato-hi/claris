@@ -25,10 +25,7 @@ impl Stroke {
             _ => Self::DEFAULT_CAP,
         };
 
-        Stroke {
-            width: width,
-            cap: cap,
-        }
+        Stroke { width, cap }
     }
 
     pub fn default() -> Stroke {

@@ -21,9 +21,9 @@ impl Color {
 
     pub fn new(r: u8, g: u8, b: u8, a: f32) -> Color {
         Color {
-            r: r,
-            g: g,
-            b: b,
+            r,
+            g,
+            b,
             a: if a >= 0.0 && a <= 1.0 {
                 a
             } else {

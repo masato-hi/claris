@@ -31,7 +31,7 @@ impl DefPoint for Yaml {
                         },
                     };
 
-                    Some(Point { x: x, y: y })
+                    Some(Point { x, y })
                 } else {
                     None
                 }
@@ -60,7 +60,7 @@ impl DefPoint for Vec<Yaml> {
                 },
             };
 
-            Some(Point { x: x, y: y })
+            Some(Point { x, y })
         } else {
             None
         }

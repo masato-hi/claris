@@ -24,14 +24,17 @@ jobs:
           keys:
             - cargo-lock-{{ checksum "Cargo.lock" }}
       - run:
-          name: Check coding format
-          command: rustup component add rustfmt && cargo fmt -- --check
-      - run:
           name: Build
           command: cargo build --release
       - run:
           name: Run test
           command: cargo test -j 1 --no-fail-fast --all
+      - run:
+          name: Check coding format
+          command: rustup component add rustfmt && cargo fmt -- --check
+      - run:
+          name: Run Clippy Lint
+          command: rustup component add clippy && cargo clippy
       - save_cache:
           key: cargo-lock-{{ checksum "Cargo.lock" }}
           paths:

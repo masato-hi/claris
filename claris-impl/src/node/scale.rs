@@ -14,7 +14,7 @@ impl Scale {
         let x = src.f64_val("x").unwrap_or(Self::DEFAULT_SCALE);
         let y = src.f64_val("y").unwrap_or(Self::DEFAULT_SCALE);
 
-        Scale { x: x, y: y }
+        Scale { x, y }
     }
 
     pub fn default() -> Scale {

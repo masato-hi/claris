@@ -64,6 +64,6 @@ impl Compiler {
             render(&mut context, layer);
         }
         surface.flush();
-        return Ok(0);
+        Ok(0)
     }
 }

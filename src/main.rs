@@ -5,9 +5,6 @@ use claris_impl::Compiler;
 fn init() {
     simple_logger::init().unwrap();
 }
-fn add(x: i32, y: i32) -> i32 {
-    x + y
-}
 
 fn main() {
     init();
@@ -19,9 +16,4 @@ fn main() {
         Ok(_) => {}
         Err(e) => println!("{}", e),
     }
-}
-
-#[test]
-fn test_add() {
-    assert_eq!(add(1, 2), 3);
 }
