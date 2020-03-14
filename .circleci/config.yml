@@ -8,25 +8,11 @@ jobs:
           name: Update apt package lists
           command: apt update
       - run:
-          name: Create checksum for apt package lists
-          command: find /var/lib/apt/lists/ -type f | xargs sha1sum > /tmp/apt-cache.sum
-      - restore_cache:
-          keys:
-            - apt-cache-{{ checksum "/tmp/apt-cache.sum" }}
-            - apt-cache-
+          name: Update apt packages
+          command: apt upgrade -y
       - run:
           name: Download dependent packages
           command: apt install --download-only git libglib2.0-dev libcairo2-dev -y
-      - run:
-          name: Create checksum for apt package lists
-          command: find /var/lib/apt/lists/ -type f | xargs sha1sum > /tmp/apt-cache.sum
-      - save_cache:
-          key: apt-cache-{{ checksum "/tmp/apt-cache.sum" }}
-          paths:
-            - "/var/lib/apt"
-      - run:
-          name: Update apt packages
-          command: apt upgrade -y
       - run:
           name: Install dependent packages
           command: apt install git libglib2.0-dev libcairo2-dev -y
