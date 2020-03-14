@@ -31,7 +31,7 @@ jobs:
           command: cargo build --release
       - run:
           name: Run test
-          command: cargo test -v -j 1 --no-fail-fast --all
+          command: cargo test -j 1 --no-fail-fast --all
       - save_cache:
           key: cargo-lock-{{ checksum "Cargo.lock" }}
           paths:
