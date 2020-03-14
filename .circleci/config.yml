@@ -16,7 +16,7 @@ jobs:
             - apt-cache-
       - run:
           name: Update apt packages
-          commmand: apt upgrade -y
+          command: apt upgrade -y
       - run:
           name: Install dependences
           command: apt install git libglib2.0-dev libcairo2-dev -y
