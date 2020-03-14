@@ -1,0 +1,12 @@
+[package]
+name = "claris-impl"
+version = "0.1.0"
+authors = ["masato <masato.hirahata@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+yaml-rust = "0.4.3"
+cairo-rs = { version = "0.8.1", features=["png"] }
+css-color-parser = "0.1.2"
+log = { version = "0.4.8", features = ["release_max_level_error"] }
+simple_logger = "1.6.0"

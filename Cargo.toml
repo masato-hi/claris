@@ -1,0 +1,11 @@
+[package]
+name = "claris"
+version = "0.1.0"
+authors = ["masato <masato.hirahata@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+claris-impl = { version = "0.1.0", path = "claris-impl"}
+
+[workspace]
+members = ["claris-impl"]
