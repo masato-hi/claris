@@ -2,9 +2,9 @@ use cairo::{Context, Format, ImageSurface, Surface};
 use std::fmt;
 use std::fs::File;
 
-use self::super::loader::SourceLoader;
-use self::super::node::Root;
-use self::super::renderer::render;
+use crate::loader::SourceLoader;
+use crate::node::Root;
+use crate::renderer::render;
 
 #[derive(Debug)]
 pub enum CompileError {

@@ -1,4 +1,4 @@
-use self::super::super::node::Rectangle as Node;
+use crate::node::Rectangle as Node;
 use cairo::Context;
 
 pub struct Rectangle {}

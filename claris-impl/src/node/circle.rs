@@ -1,10 +1,10 @@
 use yaml_rust::Yaml;
 
-use self::super::super::ext::YamlExt;
-use self::super::color::Color;
-use self::super::error::NodeError;
-use self::super::scale::Scale;
-use self::super::stroke::Stroke;
+use crate::ext::YamlExt;
+use crate::node::color::Color;
+use crate::node::error::NodeError;
+use crate::node::scale::Scale;
+use crate::node::stroke::Stroke;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Circle {

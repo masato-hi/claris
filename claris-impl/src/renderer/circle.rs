@@ -1,4 +1,4 @@
-use self::super::super::node::Circle as Node;
+use crate::node::Circle as Node;
 use cairo::Context;
 use std::f64::consts::PI;
 

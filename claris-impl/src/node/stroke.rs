@@ -1,4 +1,4 @@
-use self::super::super::ext::YamlExt;
+use crate::ext::YamlExt;
 use cairo::LineCap;
 use yaml_rust::yaml::Hash;
 

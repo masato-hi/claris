@@ -1,6 +1,6 @@
 use cairo::Context;
 
-use self::super::super::node::Polygon as Node;
+use crate::node::Polygon as Node;
 
 pub struct Polygon {}
 

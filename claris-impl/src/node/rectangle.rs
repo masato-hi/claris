@@ -1,10 +1,10 @@
 use yaml_rust::Yaml;
 
-use self::super::super::ext::YamlExt;
-use self::super::color::Color;
-use self::super::error::NodeError;
-use self::super::scale::Scale;
-use self::super::stroke::Stroke;
+use crate::ext::YamlExt;
+use crate::node::color::Color;
+use crate::node::error::NodeError;
+use crate::node::scale::Scale;
+use crate::node::stroke::Stroke;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Rectangle {
@@ -70,7 +70,8 @@ mod parse_tests {
     extern crate cairo;
     extern crate yaml_rust;
 
-    use super::Rectangle;
+    use crate::node::Rectangle;
+    use crate::parse_yaml;
     use cairo::LineCap;
     use yaml_rust::YamlLoader;
 
@@ -83,8 +84,9 @@ width: 30
 height: 40
 color: '#AABBCC'
 ";
-        let docs = YamlLoader::load_from_str(s).unwrap();
-        let src = &docs[0];
+        //let docs = YamlLoader::load_from_str(s).unwrap();
+        //let src = &docs[0];
+        let src = parse_yaml!(s);
         let rectangle = Rectangle::parse(&src).unwrap();
         assert_eq!(rectangle.x, 10.0);
     }

@@ -1,4 +1,4 @@
-use self::super::super::node::Line as Node;
+use crate::node::Line as Node;
 use cairo::Context;
 
 pub struct Line {}

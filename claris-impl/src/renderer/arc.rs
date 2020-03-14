@@ -1,4 +1,4 @@
-use self::super::super::node::Arc as Node;
+use crate::node::Arc as Node;
 use cairo::Context;
 use std::f64::consts::PI;
 

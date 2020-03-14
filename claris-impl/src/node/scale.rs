@@ -1,4 +1,4 @@
-use self::super::super::ext::YamlExt;
+use crate::ext::YamlExt;
 use yaml_rust::yaml::Hash;
 
 #[derive(Debug, Clone, Copy)]

@@ -1,4 +1,4 @@
-use self::super::error::NodeError;
+use crate::node::error::NodeError;
 use css_color_parser::Color as CssColor;
 
 #[derive(Debug, Clone, Copy)]

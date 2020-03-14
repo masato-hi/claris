@@ -2,18 +2,18 @@ use log::debug;
 use yaml_rust::yaml::Hash;
 use yaml_rust::Yaml;
 
-use self::super::super::ext::YamlExt;
-use self::super::color::Color;
-use self::super::error::NodeError;
-use self::super::Arc;
-use self::super::Circle;
-use self::super::Curve;
-use self::super::Layer;
-use self::super::Line;
-use self::super::Polygon;
-use self::super::Rectangle;
-use self::super::Text;
-use self::super::Triangle;
+use crate::ext::YamlExt;
+use crate::node::color::Color;
+use crate::node::error::NodeError;
+use crate::node::Arc;
+use crate::node::Circle;
+use crate::node::Curve;
+use crate::node::Layer;
+use crate::node::Line;
+use crate::node::Polygon;
+use crate::node::Rectangle;
+use crate::node::Text;
+use crate::node::Triangle;
 
 #[derive(Debug, Clone)]
 pub struct Root {

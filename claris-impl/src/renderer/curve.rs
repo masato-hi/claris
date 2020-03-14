@@ -1,4 +1,4 @@
-use self::super::super::node::Curve as Node;
+use crate::node::Curve as Node;
 use cairo::Context;
 
 pub struct Curve {}

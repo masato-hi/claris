@@ -1,4 +1,4 @@
-use self::super::super::node::Triangle as Node;
+use crate::node::Triangle as Node;
 use cairo::Context;
 
 pub struct Triangle {}

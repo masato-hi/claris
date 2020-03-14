@@ -1,11 +1,11 @@
-use self::super::Arc;
-use self::super::Circle;
-use self::super::Curve;
-use self::super::Line;
-use self::super::Polygon;
-use self::super::Rectangle;
-use self::super::Text;
-use self::super::Triangle;
+use crate::node::Arc;
+use crate::node::Circle;
+use crate::node::Curve;
+use crate::node::Line;
+use crate::node::Polygon;
+use crate::node::Rectangle;
+use crate::node::Text;
+use crate::node::Triangle;
 
 #[derive(Debug, Clone)]
 pub enum Layer {

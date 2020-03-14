@@ -1,4 +1,4 @@
-use self::super::super::node::Text as Node;
+use crate::node::Text as Node;
 use cairo::Context;
 
 pub struct Text {}
