@@ -39,6 +39,9 @@ jobs:
           name: Check lint
           command: make lint
       - run:
+          name: Install rust-nightly
+          command: rustup install nightly
+      - run:
           name: Run benchmark
           command: make bench
       - save_cache:
