@@ -5,7 +5,10 @@ authors = ["masato <masato.hirahata@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-yaml-rust = "0.4.3"
-cairo-rs = { version = "0.8.1", features=["png"] }
-css-color-parser = "0.1.2"
-log = { version = "0.4.8", features = ["release_max_level_error"] }
+yaml-rust = "0.4"
+cairo-rs = { version = "0.8", features=["png"] }
+css-color-parser = "0.1"
+log = { version = "0.4", features = ["release_max_level_error"] }
+
+[dev-dependencies]
+float-cmp = "0.6"

@@ -66,17 +66,25 @@ impl Rectangle {
 }
 
 #[cfg(test)]
-mod parse_tests {
-    extern crate cairo;
-    extern crate yaml_rust;
-
+mod tests {
     use crate::node::Rectangle;
     use crate::parse_yaml;
     use cairo::LineCap;
+    use float_cmp::approx_eq;
     use yaml_rust::YamlLoader;
 
+    macro_rules! parse {
+        ($x:expr) => {{
+            let src = parse_yaml!($x);
+            match Rectangle::parse(&src) {
+                Ok(x) => x,
+                Err(e) => panic!(e.to_string()),
+            }
+        }};
+    }
+
     #[test]
-    fn x_is_integer() {
+    fn parse_integer_x_y_width_height() {
         let s = "
 x: 10
 y: 20
@@ -84,29 +92,31 @@ width: 30
 height: 40
 color: '#AABBCC'
 ";
-        //let docs = YamlLoader::load_from_str(s).unwrap();
-        //let src = &docs[0];
-        let src = parse_yaml!(s);
-        let rectangle = Rectangle::parse(&src).unwrap();
-        assert_eq!(rectangle.x, 10.0);
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.x, 10.0));
+        assert!(approx_eq!(f64, subject.y, 20.0));
+        assert!(approx_eq!(f64, subject.width, 30.0));
+        assert!(approx_eq!(f64, subject.height, 40.0));
     }
 
     #[test]
-    fn x_is_float() {
+    fn parse_float_x_y_width_height() {
         let s = "
-x: 20.6
-y: 20
-width: 30
-height: 40
+x: 10.1
+y: 20.2
+width: 30.3
+height: 40.4
 color: '#AABBCC'
 ";
-        let docs = YamlLoader::load_from_str(s).unwrap();
-        let src = &docs[0];
-        let rectangle = Rectangle::parse(&src).unwrap();
-        assert_eq!(rectangle.x, 20.6);
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.x, 10.1));
+        assert!(approx_eq!(f64, subject.y, 20.2));
+        assert!(approx_eq!(f64, subject.width, 30.3));
+        assert!(approx_eq!(f64, subject.height, 40.4));
     }
 
     #[test]
+    #[should_panic(expected = "'rectangle' is required 'x' option")]
     fn x_is_blank() {
         let s = "
 y: 20
@@ -114,9 +124,123 @@ width: 30
 height: 40
 color: '#AABBCC'
 ";
-        let docs = YamlLoader::load_from_str(s).unwrap();
-        let src = &docs[0];
-        assert!(Rectangle::parse(&src).is_err());
+        parse!(s);
+    }
+
+    #[test]
+    #[should_panic(expected = "'rectangle' is required 'y' option")]
+    fn y_is_blank() {
+        let s = "
+x: 10
+width: 30
+height: 40
+color: '#AABBCC'
+";
+        parse!(s);
+    }
+
+    #[test]
+    #[should_panic(expected = "'rectangle' is required 'width' option")]
+    fn width_is_blank() {
+        let s = "
+x: 10
+y: 20
+height: 40
+color: '#AABBCC'
+";
+        parse!(s);
+    }
+
+    #[test]
+    #[should_panic(expected = "'rectangle' is required 'height' option")]
+    fn height_is_blank() {
+        let s = "
+x: 10
+y: 20
+width: 30
+color: '#AABBCC'
+";
+        parse!(s);
+    }
+
+    #[test]
+    fn fill_is_true() {
+        let s = "
+x: 10
+y: 20
+width: 30
+height: 40
+color: '#AABBCC'
+fill: true
+";
+        let subject = parse!(s);
+        assert_eq!(subject.fill, true)
+    }
+
+    #[test]
+    fn fill_is_false() {
+        let s = "
+x: 10
+y: 20
+width: 30
+height: 40
+color: '#AABBCC'
+fill: false
+";
+        let subject = parse!(s);
+        assert_eq!(subject.fill, false)
+    }
+
+    #[test]
+    fn fill_is_blank() {
+        let s = "
+x: 10
+y: 20
+width: 30
+height: 40
+color: '#AABBCC'
+";
+        let subject = parse!(s);
+        assert_eq!(subject.fill, false)
+    }
+
+    #[test]
+    fn radius_is_not_blank() {
+        let s = "
+x: 10
+y: 20
+width: 30
+height: 40
+color: '#AABBCC'
+radius: 10
+";
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.radius, 10.0));
+    }
+
+    #[test]
+    fn radius_is_blank() {
+        let s = "
+x: 10
+y: 20
+width: 30
+height: 40
+color: '#AABBCC'
+";
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.radius, 0.0));
+    }
+
+    #[test]
+    #[should_panic(expected = "'rectangle' is required 'color' option")]
+    fn color_is_blank() {
+        let s = "
+x: 10
+y: 20
+width: 30
+height: 40
+";
+        parse!(s);
     }
 
     #[test]
@@ -128,13 +252,11 @@ width: 30
 height: 40
 color: '#AABBCC'
 ";
-        let docs = YamlLoader::load_from_str(s).unwrap();
-        let src = &docs[0];
-        let rectangle = Rectangle::parse(&src).unwrap();
-        assert_eq!(rectangle.color.r, 170);
-        assert_eq!(rectangle.color.g, 187);
-        assert_eq!(rectangle.color.b, 204);
-        assert_eq!(rectangle.color.a, 1.0);
+        let subject = parse!(s);
+        assert_eq!(subject.color.r, 170);
+        assert_eq!(subject.color.g, 187);
+        assert_eq!(subject.color.b, 204);
+        assert!(approx_eq!(f32, subject.color.a, 1.0));
     }
 
     #[test]
@@ -147,13 +269,25 @@ height: 40
 color: '#AABBCC'
 alpha: 0.5
 ";
-        let docs = YamlLoader::load_from_str(s).unwrap();
-        let src = &docs[0];
-        let rectangle = Rectangle::parse(&src).unwrap();
-        assert_eq!(rectangle.color.r, 170);
-        assert_eq!(rectangle.color.g, 187);
-        assert_eq!(rectangle.color.b, 204);
-        assert_eq!(rectangle.color.a, 0.5);
+        let subject = parse!(s);
+        assert_eq!(subject.color.r, 170);
+        assert_eq!(subject.color.g, 187);
+        assert_eq!(subject.color.b, 204);
+        assert!(approx_eq!(f32, subject.color.a, 0.5));
+    }
+
+    #[test]
+    fn stroke_is_blank() {
+        let s = "
+x: 10
+y: 20
+width: 30
+height: 40
+color: '#AABBCC'
+";
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.stroke.width, 1.0));
+        assert_eq!(subject.stroke.cap, LineCap::Butt);
     }
 
     #[test]
@@ -167,11 +301,9 @@ color: '#AABBCC'
 stroke:
   width: 2
 ";
-        let docs = YamlLoader::load_from_str(s).unwrap();
-        let src = &docs[0];
-        let rectangle = Rectangle::parse(&src).unwrap();
-        assert_eq!(rectangle.stroke.width, 2.0);
-        assert_eq!(rectangle.stroke.cap, LineCap::Butt);
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.stroke.width, 2.0));
+        assert_eq!(subject.stroke.cap, LineCap::Butt);
     }
 
     #[test]
@@ -185,11 +317,9 @@ color: '#AABBCC'
 stroke:
   width: 2.5
 ";
-        let docs = YamlLoader::load_from_str(s).unwrap();
-        let src = &docs[0];
-        let rectangle = Rectangle::parse(&src).unwrap();
-        assert_eq!(rectangle.stroke.width, 2.5);
-        assert_eq!(rectangle.stroke.cap, LineCap::Butt);
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.stroke.width, 2.5));
+        assert_eq!(subject.stroke.cap, LineCap::Butt);
     }
 
     #[test]
@@ -203,10 +333,39 @@ color: '#AABBCC'
 stroke:
   cap: round
 ";
-        let docs = YamlLoader::load_from_str(s).unwrap();
-        let src = &docs[0];
-        let rectangle = Rectangle::parse(&src).unwrap();
-        assert_eq!(rectangle.stroke.width, 1.0);
-        assert_eq!(rectangle.stroke.cap, LineCap::Round);
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.stroke.width, 1.0));
+        assert_eq!(subject.stroke.cap, LineCap::Round);
+    }
+
+    #[test]
+    fn scale_is_blank() {
+        let s = "
+x: 10
+y: 20
+width: 30
+height: 40
+color: '#AABBCC'
+";
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.scale.x, 1.0));
+        assert!(approx_eq!(f64, subject.scale.y, 1.0));
+    }
+
+    #[test]
+    fn scale_is_not_blank() {
+        let s = "
+x: 10
+y: 20
+width: 30
+height: 40
+color: '#AABBCC'
+scale:
+  x: 2
+  y: 2.5
+";
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.scale.x, 2.0));
+        assert!(approx_eq!(f64, subject.scale.y, 2.5f64));
     }
 }
