@@ -1,0 +1,48 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: rust:slim-buster
+    steps:
+      - run:
+          name: create checksum apt packages
+          command: find /var/lib/apt/lists/ -type f | xargs sha1sum > /tmp/apt-cache.sum
+      - restore_cache:
+          keys:
+            - apt-cache-{{ checksum "/tmp/apt-cache.sum" }}
+      - run:
+          name: setup
+          command: apt update && apt upgrade -y && apt install git libglib2.0-dev libcairo2-dev -y
+      - run:
+          name: create checksum apt packages
+          command: find /var/lib/apt/lists/ -type f | xargs sha1sum > /tmp/apt-cache.sum
+      - save_cache:
+          key: apt-cache-{{ checksum "/tmp/apt-cache.sum" }}
+          paths:
+            - "/var/lib/apt/"
+      - checkout
+      - run:
+          name: rustup version
+          command: rustup --version
+      - restore_cache:
+          keys:
+            - cargo-lock-{{ checksum "Cargo.lock" }}
+      - run:
+          name: check coding format
+          command: rustup component add rustfmt && cargo fmt -- --check
+      - run:
+          name: build
+          command: cargo build --release
+      - run:
+          name: test
+          command: cargo test --all
+      - save_cache:
+          key: v1-cargo-lock-{{ checksum "Cargo.lock" }}
+          paths:
+            - "/usr/local/cargo/registry"
+            - "target"
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
