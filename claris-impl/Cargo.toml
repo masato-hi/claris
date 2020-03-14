@@ -3,6 +3,7 @@ name = "claris-impl"
 version = "0.1.0"
 authors = ["masato <masato.hirahata@gmail.com>"]
 edition = "2018"
+publish = false
 
 [dependencies]
 yaml-rust = "0.4"
