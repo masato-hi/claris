@@ -1,10 +1,17 @@
+use simple_logger;
+
 use claris_impl::Compiler;
 
+fn init() {
+  simple_logger::init().unwrap();
+}
 fn add(x: i32, y: i32) -> i32 {
   x + y
 }
 
 fn main() {
+  init();
+
   println!("Hello, world!");
   //parse_yaml();
   let s = "sample.yml";

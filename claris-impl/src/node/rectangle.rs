@@ -39,7 +39,7 @@ impl Rectangle {
     ))?;
     let fill = src.bool_val("fill").unwrap_or(false);
     let radius = src.f64_val("radius").unwrap_or(0.0);
-    let alpha = src.f32_val("alpha").unwrap_or(255.0);
+    let alpha = src.f32_val("alpha").unwrap_or(1.0);
     let color = src
       .string_val("color")
       .ok_or(NodeError::Required(
@@ -139,24 +139,6 @@ color: '#AABBCC'
     assert_eq!(rectangle.color.g, 187);
     assert_eq!(rectangle.color.b, 204);
     assert_eq!(rectangle.color.a, 1.0);
-  }
-
-  #[test]
-  fn color_is_rgba() {
-    let s = "
-x: 10
-y: 20
-width: 30
-height: 40
-color: rgba(255, 128, 64, 0.5)
-";
-    let docs = YamlLoader::load_from_str(s).unwrap();
-    let src = &docs[0];
-    let rectangle = Rectangle::parse(&src).unwrap();
-    assert_eq!(rectangle.color.r, 255);
-    assert_eq!(rectangle.color.g, 128);
-    assert_eq!(rectangle.color.b, 64);
-    assert_eq!(rectangle.color.a, 0.5);
   }
 
   #[test]

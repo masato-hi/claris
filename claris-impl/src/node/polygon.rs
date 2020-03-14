@@ -19,7 +19,7 @@ pub struct Polygon {
 impl Polygon {
   pub fn parse(src: &Yaml) -> Result<Polygon, NodeError> {
     let fill = src.bool_val("fill").unwrap_or(false);
-    let alpha = src.f32_val("alpha").unwrap_or(255.0);
+    let alpha = src.f32_val("alpha").unwrap_or(1.0);
     let color = src
       .string_val("color")
       .ok_or(NodeError::Required(

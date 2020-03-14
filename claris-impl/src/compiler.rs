@@ -1,5 +1,4 @@
 use cairo::{Context, Format, ImageSurface, Surface};
-use simple_logger;
 use std::fmt;
 use std::fs::File;
 
@@ -30,8 +29,6 @@ pub struct Compiler {}
 
 impl Compiler {
   pub fn compile_to_png(src_path: String, out_path: String) -> Result<u8, CompileError> {
-    simple_logger::init().unwrap();
-
     let src = SourceLoader::load(src_path.as_str())
       .map_err(|x| -> CompileError { CompileError::LoadError(x.to_string()) })?;
     let node =

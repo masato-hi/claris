@@ -28,7 +28,7 @@ impl Circle {
       .ok_or(NodeError::Required("circle".to_string(), "y".to_string()))?;
     let fill = src.bool_val("fill").unwrap_or(false);
     let radius = src.f64_val("radius").unwrap_or(0.0);
-    let alpha = src.f32_val("alpha").unwrap_or(255.0);
+    let alpha = src.f32_val("alpha").unwrap_or(1.0);
     let color = src
       .string_val("color")
       .ok_or(NodeError::Required(
