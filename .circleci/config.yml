@@ -15,7 +15,7 @@ jobs:
             - apt-cache-{{ checksum "/tmp/apt-cache.sum" }}
             - apt-cache-
       - run:
-          name: Install dependences
+          name: Download dependent packages
           command: apt install --download-only git libglib2.0-dev libcairo2-dev -y
       - run:
           name: Create checksum for apt package lists
@@ -28,7 +28,7 @@ jobs:
           name: Update apt packages
           command: apt upgrade -y
       - run:
-          name: Install dependences
+          name: Install dependent packages
           command: apt install git libglib2.0-dev libcairo2-dev -y
       - checkout
       - run:
