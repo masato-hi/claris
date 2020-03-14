@@ -1,8 +1,9 @@
+CARGO_BUILD_JOBS := $(nproc)
 build:
 	cargo build
 
 test:
-	cargo test -j 1 --no-fail-fast --all
+	cargo test --no-fail-fast --all -- --test-threads=1
 
 style-check:
 	cargo fmt -- --check
@@ -16,4 +17,10 @@ coverage:
 bench:
 	rustup run nightly cargo bench --all
 
-.PHONY: build test style-check lint coverage bench
+clean:
+	cargo clean
+
+install:
+	cargo install --git https://github.com/masato-hi/claris.git
+
+.PHONY: build test style-check lint coverage bench install
