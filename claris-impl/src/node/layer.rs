@@ -9,12 +9,12 @@ use self::super::Triangle;
 
 #[derive(Debug, Clone)]
 pub enum Layer {
-  Rectangle(Rectangle),
-  Circle(Circle),
-  Arc(Arc),
-  Triangle(Triangle),
-  Polygon(Polygon),
-  Line(Line),
-  Curve(Curve),
-  Text(Text),
+    Rectangle(Rectangle),
+    Circle(Circle),
+    Arc(Arc),
+    Triangle(Triangle),
+    Polygon(Polygon),
+    Line(Line),
+    Curve(Curve),
+    Text(Text),
 }
