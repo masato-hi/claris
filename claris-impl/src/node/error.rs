@@ -19,7 +19,7 @@ impl fmt::Display for NodeError {
                 f.write_fmt(format_args!("'{}' is required '{}' option", x, y))
             }
             NodeError::InvalidColor(x) => f.write_fmt(format_args!("invalid color format '{}'", x)),
-            NodeError::InvalidLayer => f.write_str("invalid layers"),
+            NodeError::InvalidLayer => f.write_str("invalid layer"),
             NodeError::InvalidLayerCount => f.write_str("invalid layers count"),
             NodeError::InvalidLayerDefine => f.write_str("invalid layer define"),
             NodeError::UnknownLayer(x) => f.write_fmt(format_args!("unknown layer type '{}'", x)),
