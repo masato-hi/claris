@@ -86,6 +86,7 @@ cap: butt
         let subject = parse!(s);
         assert_eq!(subject.cap, LineCap::Butt);
     }
+
     #[test]
     fn cap_is_square() {
         let s = "---
@@ -94,6 +95,7 @@ cap: square
         let subject = parse!(s);
         assert_eq!(subject.cap, LineCap::Square);
     }
+
     #[test]
     fn cap_is_round() {
         let s = "---
@@ -101,5 +103,14 @@ cap: round
         ";
         let subject = parse!(s);
         assert_eq!(subject.cap, LineCap::Round);
+    }
+
+    #[test]
+    fn cap_is_invalid() {
+        let s = "---
+cap: invalid
+        ";
+        let subject = parse!(s);
+        assert_eq!(subject.cap, LineCap::Butt);
     }
 }
