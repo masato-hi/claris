@@ -66,3 +66,128 @@ impl DefPoint for Vec<Yaml> {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::DefPoint;
+    use crate::parse_yaml;
+    use float_cmp::approx_eq;
+    use yaml_rust::YamlLoader;
+
+    #[test]
+    fn yaml_integer_point() {
+        let s = "---
+- 10
+- 20
+";
+        let src = parse_yaml!(s);
+        let subject = src.as_point().unwrap();
+        assert!(approx_eq!(f64, subject.x, 10.0));
+        assert!(approx_eq!(f64, subject.y, 20.0));
+    }
+
+    #[test]
+    fn yaml_float_point() {
+        let s = "---
+- 10.1
+- 20.2
+";
+        let src = parse_yaml!(s);
+        let subject = src.as_point().unwrap();
+        assert!(approx_eq!(f64, subject.x, 10.1));
+        assert!(approx_eq!(f64, subject.y, 20.2));
+    }
+
+    #[test]
+    fn yaml_invalid_point_x() {
+        let s = "---
+- '10.1'
+- 20.2
+";
+        let src = parse_yaml!(s);
+        assert!(src.as_point().is_none());
+    }
+
+    #[test]
+    fn yaml_invalid_point_y() {
+        let s = "---
+- 10.1
+- '20.2'
+";
+        let src = parse_yaml!(s);
+        assert!(src.as_point().is_none());
+    }
+
+    #[test]
+    fn yaml_invalid_point() {
+        let s = "---
+- 10.1
+- 20.2
+- 33.3
+";
+        let src = parse_yaml!(s);
+        assert!(src.as_point().is_none());
+    }
+
+    #[test]
+    fn yaml_not_array() {
+        let s = "---{}";
+        let src = parse_yaml!(s);
+        assert!(src.as_point().is_none());
+    }
+
+    #[test]
+    fn vec_integer_point() {
+        let s = "---
+- 10
+- 20
+";
+        let src = parse_yaml!(s);
+        let subject = src.as_vec().unwrap().as_point().unwrap();
+        assert!(approx_eq!(f64, subject.x, 10.0));
+        assert!(approx_eq!(f64, subject.y, 20.0));
+    }
+
+    #[test]
+    fn vec_float_point() {
+        let s = "---
+- 10.1
+- 20.2
+";
+        let src = parse_yaml!(s);
+        let subject = src.as_vec().unwrap().as_point().unwrap();
+        assert!(approx_eq!(f64, subject.x, 10.1));
+        assert!(approx_eq!(f64, subject.y, 20.2));
+    }
+
+    #[test]
+    fn vec_invalid_point_x() {
+        let s = "---
+- '10.1'
+- 20.2
+";
+        let src = parse_yaml!(s);
+        assert!(src.as_vec().unwrap().as_point().is_none());
+    }
+
+    #[test]
+    fn vec_invalid_point_y() {
+        let s = "---
+- 10.1
+- '20.2'
+";
+        let src = parse_yaml!(s);
+        assert!(src.as_vec().unwrap().as_point().is_none());
+    }
+
+    #[test]
+    fn vec_invalid_point() {
+        let s = "---
+- 10.1
+- 20.2
+- 33.3
+";
+        let src = parse_yaml!(s);
+        assert!(src.as_vec().unwrap().as_point().is_none());
+    }
+}
