@@ -15,7 +15,7 @@ coverage:
 	cargo tarpaulin -o Html --output-dir target/tarpaulin/ --all
 
 bench:
-	rustup run nightly cargo bench --all
+	rustup run nightly cargo bench --no-fail-fast --quiet --all
 
 clean:
 	cargo clean
