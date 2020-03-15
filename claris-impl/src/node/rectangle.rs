@@ -67,7 +67,7 @@ impl Rectangle {
 
 #[cfg(test)]
 mod tests {
-    use crate::node::Rectangle;
+    use super::Rectangle;
     use crate::parse_yaml;
     use cairo::LineCap;
     use float_cmp::approx_eq;
@@ -366,6 +366,6 @@ scale:
 ";
         let subject = parse!(s);
         assert!(approx_eq!(f64, subject.scale.x, 2.0));
-        assert!(approx_eq!(f64, subject.scale.y, 2.5f64));
+        assert!(approx_eq!(f64, subject.scale.y, 2.5));
     }
 }
