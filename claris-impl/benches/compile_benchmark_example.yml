@@ -16,23 +16,6 @@ layers:
       y: 20
       radius: 10
       fill: true
-  - composite:
-      color: "#FFFFFF"
-      alpha: 0.5
-      scale:
-        x: 1
-        y: 2
-      layers:
-        - style: circle
-          color: "#0000FF"
-          x: 80
-          y: 40
-          radius: 20
-        - style: circle
-          color: "#000000"
-          x: 80
-          y: 40
-          radius: 10
   - triangle:
       color: "#00FF00"
       vertex:
