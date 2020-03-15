@@ -69,3 +69,260 @@ impl Triangle {
         Ok(Vertex { a, b, c })
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Triangle;
+    use crate::parse_yaml;
+    use cairo::LineCap;
+    use float_cmp::approx_eq;
+    use yaml_rust::YamlLoader;
+
+    macro_rules! parse {
+        ($x:expr) => {{
+            let src = parse_yaml!($x);
+            match Triangle::parse(&src) {
+                Ok(x) => x,
+                Err(e) => panic!(e.to_string()),
+            }
+        }};
+    }
+
+    #[test]
+    fn fill_is_true() {
+        let s = "---
+color: '#AABBCC'
+fill: true
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        let subject = parse!(s);
+        assert_eq!(subject.fill, true)
+    }
+
+    #[test]
+    fn fill_is_false() {
+        let s = "---
+color: '#AABBCC'
+fill: false
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        let subject = parse!(s);
+        assert_eq!(subject.fill, false)
+    }
+
+    #[test]
+    fn fill_is_blank() {
+        let s = "---
+color: '#AABBCC'
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        let subject = parse!(s);
+        assert_eq!(subject.fill, false)
+    }
+
+    #[test]
+    #[should_panic(expected = "'triangle' is required 'color' option")]
+    fn color_is_blank() {
+        let s = "---
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        parse!(s);
+    }
+
+    #[test]
+    fn color_is_rgb() {
+        let s = "---
+color: '#AABBCC'
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        let subject = parse!(s);
+        assert_eq!(subject.color.r, 170);
+        assert_eq!(subject.color.g, 187);
+        assert_eq!(subject.color.b, 204);
+        assert!(approx_eq!(f32, subject.color.a, 1.0));
+    }
+
+    #[test]
+    fn color_and_alpha() {
+        let s = "---
+color: '#AABBCC'
+alpha: 0.5
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        let subject = parse!(s);
+        assert_eq!(subject.color.r, 170);
+        assert_eq!(subject.color.g, 187);
+        assert_eq!(subject.color.b, 204);
+        assert!(approx_eq!(f32, subject.color.a, 0.5));
+    }
+
+    #[test]
+    fn stroke_is_blank() {
+        let s = "---
+color: '#AABBCC'
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.stroke.width, 1.0));
+        assert_eq!(subject.stroke.cap, LineCap::Butt);
+    }
+
+    #[test]
+    fn stroke_with_integer_width() {
+        let s = "---
+color: '#AABBCC'
+stroke:
+  width: 2
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.stroke.width, 2.0));
+        assert_eq!(subject.stroke.cap, LineCap::Butt);
+    }
+
+    #[test]
+    fn stroke_with_float_width() {
+        let s = "---
+color: '#AABBCC'
+stroke:
+  width: 2.5
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.stroke.width, 2.5));
+        assert_eq!(subject.stroke.cap, LineCap::Butt);
+    }
+
+    #[test]
+    fn stroke_with_cap() {
+        let s = "---
+color: '#AABBCC'
+stroke:
+  cap: round
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.stroke.width, 1.0));
+        assert_eq!(subject.stroke.cap, LineCap::Round);
+    }
+
+    #[test]
+    fn scale_is_blank() {
+        let s = "---
+color: '#AABBCC'
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.scale.x, 1.0));
+        assert!(approx_eq!(f64, subject.scale.y, 1.0));
+    }
+
+    #[test]
+    fn scale_is_not_blank() {
+        let s = "---
+color: '#AABBCC'
+scale:
+  x: 2
+  y: 2.5
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.scale.x, 2.0));
+        assert!(approx_eq!(f64, subject.scale.y, 2.5));
+    }
+
+    #[test]
+    #[should_panic(expected = "'triangle' is required 'vertex' option")]
+    fn vertex_is_blank() {
+        let s = "---
+x: 10
+y: 20
+width: 30
+height: 40
+color: '#AABBCC'
+scale:
+  x: 2
+  y: 2.5
+";
+        parse!(s);
+    }
+
+    #[test]
+    fn vertex_is_not_blank() {
+        let s = "---
+x: 10
+y: 20
+width: 30
+height: 40
+color: '#AABBCC'
+scale:
+  x: 2
+  y: 2.5
+vertex:
+  - [10, 20]
+  - [30, 10]
+  - [40, 30]
+";
+        let subject = parse!(s);
+        assert!(approx_eq!(f64, subject.vertex.a.x, 10.0));
+        assert!(approx_eq!(f64, subject.vertex.a.y, 20.0));
+        assert!(approx_eq!(f64, subject.vertex.b.x, 30.0));
+        assert!(approx_eq!(f64, subject.vertex.b.y, 10.0));
+        assert!(approx_eq!(f64, subject.vertex.c.x, 40.0));
+        assert!(approx_eq!(f64, subject.vertex.c.y, 30.0));
+    }
+
+    #[test]
+    #[should_panic(expected = "invalid vertex")]
+    fn vertex_is_invalid() {
+        let s = "---
+x: 10
+y: 20
+width: 30
+height: 40
+color: '#AABBCC'
+scale:
+  x: 2
+  y: 2.5
+vertex:
+  - [10, 20]
+";
+        parse!(s);
+    }
+}
