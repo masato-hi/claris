@@ -80,7 +80,7 @@ mod tests {
     #[test]
     #[should_panic(expected = "'line' is required 'color' option")]
     fn color_is_blank() {
-        let s = "
+        let s = "---
 points:
   - [10, 20]
   - [30, 10]
@@ -92,7 +92,7 @@ points:
 
     #[test]
     fn color_is_rgb() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 points:
   - [10, 20]
@@ -109,7 +109,7 @@ points:
 
     #[test]
     fn color_and_alpha() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 alpha: 0.5
 points:
@@ -127,7 +127,7 @@ points:
 
     #[test]
     fn stroke_is_blank() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 points:
   - [10, 20]
@@ -142,7 +142,7 @@ points:
 
     #[test]
     fn stroke_with_integer_width() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 stroke:
   width: 2
@@ -159,7 +159,7 @@ points:
 
     #[test]
     fn stroke_with_float_width() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 stroke:
   width: 2.5
@@ -176,7 +176,7 @@ points:
 
     #[test]
     fn stroke_with_cap() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 stroke:
   cap: round
@@ -193,7 +193,7 @@ points:
 
     #[test]
     fn scale_is_blank() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 points:
   - [10, 20]
@@ -208,7 +208,7 @@ points:
 
     #[test]
     fn scale_is_not_blank() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 scale:
   x: 2
@@ -227,7 +227,7 @@ points:
     #[test]
     #[should_panic(expected = "'line' is required 'points' option")]
     fn points_is_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -242,7 +242,7 @@ scale:
 
     #[test]
     fn points_is_not_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -272,7 +272,7 @@ points:
     #[test]
     #[should_panic(expected = "invalid point")]
     fn points_is_invalid() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30

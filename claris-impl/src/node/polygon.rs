@@ -82,7 +82,7 @@ mod tests {
 
     #[test]
     fn fill_is_true() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 fill: true
 vertex:
@@ -97,7 +97,7 @@ vertex:
 
     #[test]
     fn fill_is_false() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 fill: false
 vertex:
@@ -112,7 +112,7 @@ vertex:
 
     #[test]
     fn fill_is_blank() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 vertex:
   - [10, 20]
@@ -127,7 +127,7 @@ vertex:
     #[test]
     #[should_panic(expected = "'polygon' is required 'color' option")]
     fn color_is_blank() {
-        let s = "
+        let s = "---
 vertex:
   - [10, 20]
   - [30, 10]
@@ -139,7 +139,7 @@ vertex:
 
     #[test]
     fn color_is_rgb() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 vertex:
   - [10, 20]
@@ -156,7 +156,7 @@ vertex:
 
     #[test]
     fn color_and_alpha() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 alpha: 0.5
 vertex:
@@ -174,7 +174,7 @@ vertex:
 
     #[test]
     fn stroke_is_blank() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 vertex:
   - [10, 20]
@@ -189,7 +189,7 @@ vertex:
 
     #[test]
     fn stroke_with_integer_width() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 stroke:
   width: 2
@@ -206,7 +206,7 @@ vertex:
 
     #[test]
     fn stroke_with_float_width() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 stroke:
   width: 2.5
@@ -223,7 +223,7 @@ vertex:
 
     #[test]
     fn stroke_with_cap() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 stroke:
   cap: round
@@ -240,7 +240,7 @@ vertex:
 
     #[test]
     fn scale_is_blank() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 vertex:
   - [10, 20]
@@ -255,7 +255,7 @@ vertex:
 
     #[test]
     fn scale_is_not_blank() {
-        let s = "
+        let s = "---
 color: '#AABBCC'
 scale:
   x: 2
@@ -274,7 +274,7 @@ vertex:
     #[test]
     #[should_panic(expected = "'polygon' is required 'vertex' option")]
     fn vertex_is_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -289,7 +289,7 @@ scale:
 
     #[test]
     fn vertex_is_not_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -319,7 +319,7 @@ vertex:
     #[test]
     #[should_panic(expected = "invalid point")]
     fn vertex_is_invalid() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30

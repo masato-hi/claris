@@ -85,7 +85,7 @@ mod tests {
 
     #[test]
     fn parse_integer_x_y_width_height() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -101,7 +101,7 @@ color: '#AABBCC'
 
     #[test]
     fn parse_float_x_y_width_height() {
-        let s = "
+        let s = "---
 x: 10.1
 y: 20.2
 width: 30.3
@@ -118,7 +118,7 @@ color: '#AABBCC'
     #[test]
     #[should_panic(expected = "'rectangle' is required 'x' option")]
     fn x_is_blank() {
-        let s = "
+        let s = "---
 y: 20
 width: 30
 height: 40
@@ -130,7 +130,7 @@ color: '#AABBCC'
     #[test]
     #[should_panic(expected = "'rectangle' is required 'y' option")]
     fn y_is_blank() {
-        let s = "
+        let s = "---
 x: 10
 width: 30
 height: 40
@@ -142,7 +142,7 @@ color: '#AABBCC'
     #[test]
     #[should_panic(expected = "'rectangle' is required 'width' option")]
     fn width_is_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 height: 40
@@ -154,7 +154,7 @@ color: '#AABBCC'
     #[test]
     #[should_panic(expected = "'rectangle' is required 'height' option")]
     fn height_is_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -165,7 +165,7 @@ color: '#AABBCC'
 
     #[test]
     fn fill_is_true() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -179,7 +179,7 @@ fill: true
 
     #[test]
     fn fill_is_false() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -193,7 +193,7 @@ fill: false
 
     #[test]
     fn fill_is_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -206,7 +206,7 @@ color: '#AABBCC'
 
     #[test]
     fn radius_is_not_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -220,7 +220,7 @@ radius: 10
 
     #[test]
     fn radius_is_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -234,7 +234,7 @@ color: '#AABBCC'
     #[test]
     #[should_panic(expected = "'rectangle' is required 'color' option")]
     fn color_is_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -245,7 +245,7 @@ height: 40
 
     #[test]
     fn color_is_rgb() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -261,7 +261,7 @@ color: '#AABBCC'
 
     #[test]
     fn color_and_alpha() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -278,7 +278,7 @@ alpha: 0.5
 
     #[test]
     fn stroke_is_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -292,7 +292,7 @@ color: '#AABBCC'
 
     #[test]
     fn stroke_with_integer_width() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -308,7 +308,7 @@ stroke:
 
     #[test]
     fn stroke_with_float_width() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -324,7 +324,7 @@ stroke:
 
     #[test]
     fn stroke_with_cap() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -340,7 +340,7 @@ stroke:
 
     #[test]
     fn scale_is_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
@@ -354,7 +354,7 @@ color: '#AABBCC'
 
     #[test]
     fn scale_is_not_blank() {
-        let s = "
+        let s = "---
 x: 10
 y: 20
 width: 30
