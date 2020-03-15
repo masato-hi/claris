@@ -32,3 +32,27 @@ impl Color {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Color;
+    use float_cmp::approx_eq;
+
+    #[test]
+    fn valid_color_format() {
+        let subject = Color::parse("#AABBCC".to_string()).unwrap();
+        assert_eq!(subject.r, 170);
+        assert_eq!(subject.g, 187);
+        assert_eq!(subject.b, 204);
+        assert!(approx_eq!(f32, subject.a, 1.0));
+    }
+
+    #[test]
+    #[should_panic(expected = "invalid color format '#AABBCG'")]
+    fn invalid_color_format() {
+        match Color::parse("#AABBCG".to_string()) {
+            Err(e) => panic!(e.to_string()),
+            _ => (),
+        }
+    }
+}

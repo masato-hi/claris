@@ -3,7 +3,7 @@ build:
 	cargo build
 
 test:
-	cargo test --no-fail-fast --all -- --test-threads=1
+	cargo test --no-fail-fast --quiet --all -- --test-threads=1
 
 style-check:
 	cargo fmt -- --check
