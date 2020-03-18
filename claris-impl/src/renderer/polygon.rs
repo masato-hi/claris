@@ -30,3 +30,47 @@ impl Polygon {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Polygon;
+    use crate::node::Polygon as Node;
+    use crate::testing_helpers::stub::ContextImpl;
+
+    #[test]
+    fn fill_mode() {
+        let mut context = ContextImpl::new();
+        let node = Node {
+            fill: true,
+            ..Default::default()
+        };
+        Polygon::render(&mut context, node);
+        assert_eq!(context.translate_received, 1);
+        assert_eq!(context.set_source_rgba_received, 1);
+        assert_eq!(context.scale_received, 1);
+        assert_eq!(context.move_to_received, 1);
+        assert_eq!(context.line_to_received, 2);
+        assert_eq!(context.close_path_received, 1);
+        assert_eq!(context.fill_received, 1);
+        assert_eq!(context.set_line_width_received, 0);
+        assert_eq!(context.set_line_cap_received, 0);
+        assert_eq!(context.stroke_received, 0);
+    }
+
+    #[test]
+    fn stroke_mode() {
+        let mut context = ContextImpl::new();
+        let node = Node::default();
+        Polygon::render(&mut context, node);
+        assert_eq!(context.translate_received, 1);
+        assert_eq!(context.set_source_rgba_received, 1);
+        assert_eq!(context.scale_received, 1);
+        assert_eq!(context.move_to_received, 1);
+        assert_eq!(context.line_to_received, 2);
+        assert_eq!(context.close_path_received, 1);
+        assert_eq!(context.fill_received, 0);
+        assert_eq!(context.set_line_width_received, 1);
+        assert_eq!(context.set_line_cap_received, 1);
+        assert_eq!(context.stroke_received, 1);
+    }
+}

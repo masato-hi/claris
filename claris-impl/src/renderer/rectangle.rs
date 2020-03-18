@@ -40,7 +40,6 @@ mod tests {
         Rectangle::render(&mut context, node);
         assert_eq!(context.translate_received, 1);
         assert_eq!(context.set_source_rgba_received, 1);
-        assert_eq!(context.rectangle_received, 1);
         assert_eq!(context.scale_received, 1);
         assert_eq!(context.rectangle_received, 1);
         assert_eq!(context.fill_received, 1);
@@ -56,7 +55,6 @@ mod tests {
         Rectangle::render(&mut context, node);
         assert_eq!(context.translate_received, 1);
         assert_eq!(context.set_source_rgba_received, 1);
-        assert_eq!(context.rectangle_received, 1);
         assert_eq!(context.scale_received, 1);
         assert_eq!(context.rectangle_received, 1);
         assert_eq!(context.fill_received, 0);
