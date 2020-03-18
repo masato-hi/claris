@@ -1,4 +1,5 @@
 mod compiler;
+mod context;
 mod ext;
 mod loader;
 mod node;
@@ -7,3 +8,4 @@ mod renderer;
 mod testing_helpers;
 
 pub use compiler::Compiler;
+pub use context::{Context, ContextImpl};

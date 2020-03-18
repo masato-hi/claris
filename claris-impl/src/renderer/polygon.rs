@@ -1,11 +1,10 @@
-use cairo::Context;
-
 use crate::node::Polygon as Node;
+use crate::Context;
 
 pub struct Polygon {}
 
 impl Polygon {
-    pub fn render(context: &mut Context, node: Node) {
+    pub fn render(context: &mut dyn Context, node: Node) {
         context.translate(0.0, 0.0);
         context.set_source_rgba(
             node.color.r as f64 / 255.0,

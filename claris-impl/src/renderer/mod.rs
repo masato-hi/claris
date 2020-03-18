@@ -1,4 +1,3 @@
-use cairo::Context;
 use log::debug;
 
 use self::super::node::Layer;
@@ -12,6 +11,7 @@ mod rectangle;
 mod text;
 mod triangle;
 
+use crate::Context;
 use arc::Arc as ArcRenderer;
 use circle::Circle as CircleRenderer;
 use curve::Curve as CurveRenderer;
@@ -21,7 +21,7 @@ use rectangle::Rectangle as RectangleRenderer;
 use text::Text as TextRenderer;
 use triangle::Triangle as TriangleRenderer;
 
-pub fn render(context: &mut Context, layer: Layer) {
+pub fn render(context: &mut dyn Context, layer: Layer) {
     context.save();
     debug!("{:?}", layer);
     match layer {

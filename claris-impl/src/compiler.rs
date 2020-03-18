@@ -1,10 +1,11 @@
-use cairo::{Context, Format, ImageSurface, Surface};
+use cairo::{Format, ImageSurface, Surface};
 use std::fmt;
 use std::fs::File;
 
 use crate::loader::SourceLoader;
 use crate::node::Root;
 use crate::renderer::render;
+use crate::{Context, ContextImpl};
 
 #[derive(Debug)]
 pub enum CompileError {
@@ -49,7 +50,7 @@ impl Compiler {
     }
 
     fn render_context(surface: &Surface, node: Root) -> Result<u8, CompileError> {
-        let mut context = Context::new(&surface);
+        let mut context = ContextImpl::new(&surface);
         context.save();
         context.set_source_rgba(
             node.color.r as f64 / 255.0,

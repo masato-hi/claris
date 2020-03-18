@@ -1,10 +1,10 @@
 use crate::node::Text as Node;
-use cairo::Context;
+use crate::Context;
 
 pub struct Text {}
 
 impl Text {
-    pub fn render(context: &mut Context, node: Node) {
+    pub fn render(context: &mut dyn Context, node: Node) {
         context.translate(node.x, node.y);
         context.move_to(0.0, 0.0);
         context.set_source_rgba(

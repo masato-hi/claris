@@ -16,11 +16,14 @@ mod triangle;
 
 pub use arc::Arc;
 pub use circle::Circle;
+pub use color::Color;
 pub use curve::Curve;
 pub use layer::Layer;
 pub use line::Line;
 pub use polygon::Polygon;
 pub use rectangle::Rectangle;
 pub use root::Root;
+pub use scale::Scale;
+pub use stroke::Stroke;
 pub use text::Text;
 pub use triangle::Triangle;

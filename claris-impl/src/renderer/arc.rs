@@ -1,11 +1,11 @@
 use crate::node::Arc as Node;
-use cairo::Context;
+use crate::Context;
 use std::f64::consts::PI;
 
 pub struct Arc {}
 
 impl Arc {
-    pub fn render(context: &mut Context, node: Node) {
+    pub fn render(context: &mut dyn Context, node: Node) {
         context.translate(node.x, node.y);
         context.set_source_rgba(
             node.color.r as f64 / 255.0,
