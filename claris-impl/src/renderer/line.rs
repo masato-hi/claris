@@ -25,3 +25,25 @@ impl Line {
         context.stroke();
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Line;
+    use crate::node::Line as Node;
+    use crate::testing_helpers::stub::ContextImpl;
+
+    #[test]
+    fn render() {
+        let mut context = ContextImpl::new();
+        let node = Node::default();
+        Line::render(&mut context, node);
+        assert_eq!(context.translate_received, 1);
+        assert_eq!(context.set_source_rgba_received, 1);
+        assert_eq!(context.scale_received, 1);
+        assert_eq!(context.move_to_received, 1);
+        assert_eq!(context.line_to_received, 2);
+        assert_eq!(context.set_line_width_received, 1);
+        assert_eq!(context.set_line_cap_received, 1);
+        assert_eq!(context.stroke_received, 1);
+    }
+}
