@@ -12,7 +12,7 @@ mod root;
 mod scale;
 mod stroke;
 mod text;
-mod triangle;
+pub mod triangle;
 
 pub use arc::Arc;
 pub use circle::Circle;
