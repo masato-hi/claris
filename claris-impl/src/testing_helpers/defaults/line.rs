@@ -5,8 +5,8 @@ use crate::node::Scale;
 use crate::node::Stroke;
 
 impl Default for Line {
-    fn default() -> Line {
-        Line {
+    fn default() -> Self {
+        Self {
             color: Color::default(),
             scale: Scale::default(),
             stroke: Stroke::default(),

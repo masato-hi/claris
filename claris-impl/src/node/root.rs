@@ -320,7 +320,7 @@ layers:
   - curve:
       color: '#AABBCC'
       start: [10, 10]
-      midway: [30, 30]
+      mid: [30, 30]
       end: [10, 60]
 ";
         let subject = parse!(s);

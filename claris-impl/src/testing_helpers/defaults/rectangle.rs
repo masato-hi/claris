@@ -4,8 +4,8 @@ use crate::node::Scale;
 use crate::node::Stroke;
 
 impl Default for Rectangle {
-    fn default() -> Rectangle {
-        Rectangle {
+    fn default() -> Self {
+        Self {
             x: 0.0,
             y: 0.0,
             width: 0.0,

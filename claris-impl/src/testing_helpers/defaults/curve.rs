@@ -1,17 +1,18 @@
 use crate::node::Color;
+use crate::node::Curve;
 use crate::node::Point;
-use crate::node::Polygon;
 use crate::node::Scale;
 use crate::node::Stroke;
 
-impl Default for Polygon {
+impl Default for Curve {
     fn default() -> Self {
         Self {
-            fill: false,
             color: Color::default(),
             scale: Scale::default(),
             stroke: Stroke::default(),
-            vertex: vec![Point::default(), Point::default(), Point::default()],
+            start: Point::default(),
+            mid: Point::default(),
+            end: Point::default(),
         }
     }
 }

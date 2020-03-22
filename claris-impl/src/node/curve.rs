@@ -13,7 +13,7 @@ pub struct Curve {
     pub stroke: Stroke,
     pub scale: Scale,
     pub start: Point,
-    pub midway: Point,
+    pub mid: Point,
     pub end: Point,
 }
 
@@ -41,9 +41,9 @@ impl Curve {
             .and_then(|x| -> Result<Point, NodeError> {
                 x.as_point().ok_or(NodeError::InvalidPoint)
             })?;
-        let midway = src
-            .array_val("midway")
-            .ok_or_else(|| NodeError::Required("curve".to_string(), "midway".to_string()))
+        let mid = src
+            .array_val("mid")
+            .ok_or_else(|| NodeError::Required("curve".to_string(), "mid".to_string()))
             .and_then(|x| -> Result<Point, NodeError> {
                 x.as_point().ok_or_else(|| NodeError::InvalidPoint)
             })?;
@@ -59,7 +59,7 @@ impl Curve {
             stroke,
             scale,
             start,
-            midway,
+            mid,
             end,
         })
     }
@@ -88,7 +88,7 @@ mod tests {
     fn color_is_blank() {
         let s = "---
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         parse!(s);
@@ -99,7 +99,7 @@ end: [10, 60]
         let s = "---
 color: '#AABBCC'
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         let subject = parse!(s);
@@ -115,7 +115,7 @@ end: [10, 60]
 color: '#AABBCC'
 alpha: 0.5
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         let subject = parse!(s);
@@ -130,7 +130,7 @@ end: [10, 60]
         let s = "---
 color: '#AABBCC'
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         let subject = parse!(s);
@@ -145,7 +145,7 @@ color: '#AABBCC'
 stroke:
   width: 2
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         let subject = parse!(s);
@@ -160,7 +160,7 @@ color: '#AABBCC'
 stroke:
   width: 2.5
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         let subject = parse!(s);
@@ -175,7 +175,7 @@ color: '#AABBCC'
 stroke:
   cap: round
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         let subject = parse!(s);
@@ -188,7 +188,7 @@ end: [10, 60]
         let s = "---
 color: '#AABBCC'
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         let subject = parse!(s);
@@ -204,7 +204,7 @@ scale:
   x: 2
   y: 2.5
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         let subject = parse!(s);
@@ -217,7 +217,7 @@ end: [10, 60]
     fn start_is_blank() {
         let s = "---
 color: '#AABBCC'
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         parse!(s);
@@ -228,7 +228,7 @@ end: [10, 60]
         let s = "---
 color: '#AABBCC'
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         let subject = parse!(s);
@@ -242,15 +242,15 @@ end: [10, 60]
         let s = "---
 color: '#AABBCC'
 start: [10]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         parse!(s);
     }
 
     #[test]
-    #[should_panic(expected = "'curve' is required 'midway' option")]
-    fn midway_is_blank() {
+    #[should_panic(expected = "'curve' is required 'mid' option")]
+    fn mid_is_blank() {
         let s = "---
 color: '#AABBCC'
 start: [10, 5]
@@ -260,25 +260,25 @@ end: [10, 60]
     }
 
     #[test]
-    fn midway_is_not_blank() {
+    fn mid_is_not_blank() {
         let s = "---
 color: '#AABBCC'
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         let subject = parse!(s);
-        assert!(approx_eq!(f64, subject.midway.x, 30.0));
-        assert!(approx_eq!(f64, subject.midway.y, 40.0));
+        assert!(approx_eq!(f64, subject.mid.x, 30.0));
+        assert!(approx_eq!(f64, subject.mid.y, 40.0));
     }
 
     #[test]
     #[should_panic(expected = "invalid point")]
-    fn midway_is_invalid() {
+    fn mid_is_invalid() {
         let s = "---
 color: '#AABBCC'
 start: [10, 5]
-midway: [30]
+mid: [30]
 end: [10, 60]
 ";
         parse!(s);
@@ -290,7 +290,7 @@ end: [10, 60]
         let s = "---
 color: '#AABBCC'
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 ";
         parse!(s);
     }
@@ -300,7 +300,7 @@ midway: [30, 40]
         let s = "---
 color: '#AABBCC'
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10, 60]
 ";
         let subject = parse!(s);
@@ -314,7 +314,7 @@ end: [10, 60]
         let s = "---
 color: '#AABBCC'
 start: [10, 5]
-midway: [30, 40]
+mid: [30, 40]
 end: [10]
 ";
         parse!(s);

@@ -38,7 +38,7 @@ layers:
   - curve:
       color: "#FFFF00"
       start: [140, 260]
-      midway: [180, 260]
+      mid: [180, 260]
       end: [200, 120]
   - text:
       text: Hello World!
