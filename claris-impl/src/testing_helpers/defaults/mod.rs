@@ -1,3 +1,4 @@
+mod arc;
 mod circle;
 mod color;
 mod curve;

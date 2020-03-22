@@ -36,3 +36,94 @@ impl Arc {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Arc;
+    use crate::node::Arc as Node;
+    use crate::testing_helpers::stub::ContextImpl;
+
+    #[test]
+    fn fill_and_close() {
+        let mut context = ContextImpl::new();
+        let node = Node {
+            fill: true,
+            close: true,
+            ..Default::default()
+        };
+        Arc::render(&mut context, node);
+        assert_eq!(context.translate_received, 1);
+        assert_eq!(context.set_source_rgba_received, 1);
+        assert_eq!(context.scale_received, 1);
+        assert_eq!(context.move_to_received, 1);
+        assert_eq!(context.line_to_received, 1);
+        assert_eq!(context.arc_received, 1);
+        assert_eq!(context.fill_received, 1);
+        assert_eq!(context.set_line_width_received, 0);
+        assert_eq!(context.set_line_cap_received, 0);
+        assert_eq!(context.stroke_received, 0);
+    }
+
+    #[test]
+    fn fill_and_not_close() {
+        let mut context = ContextImpl::new();
+        let node = Node {
+            fill: true,
+            close: false,
+            ..Default::default()
+        };
+        Arc::render(&mut context, node);
+        assert_eq!(context.translate_received, 1);
+        assert_eq!(context.set_source_rgba_received, 1);
+        assert_eq!(context.scale_received, 1);
+        assert_eq!(context.move_to_received, 0);
+        assert_eq!(context.line_to_received, 0);
+        assert_eq!(context.arc_received, 1);
+        assert_eq!(context.fill_received, 1);
+        assert_eq!(context.set_line_width_received, 0);
+        assert_eq!(context.set_line_cap_received, 0);
+        assert_eq!(context.stroke_received, 0);
+    }
+
+    #[test]
+    fn stroke_and_close() {
+        let mut context = ContextImpl::new();
+        let node = Node {
+            fill: false,
+            close: true,
+            ..Default::default()
+        };
+        Arc::render(&mut context, node);
+        assert_eq!(context.translate_received, 1);
+        assert_eq!(context.set_source_rgba_received, 1);
+        assert_eq!(context.scale_received, 1);
+        assert_eq!(context.move_to_received, 1);
+        assert_eq!(context.line_to_received, 1);
+        assert_eq!(context.arc_received, 1);
+        assert_eq!(context.fill_received, 0);
+        assert_eq!(context.set_line_width_received, 1);
+        assert_eq!(context.set_line_cap_received, 1);
+        assert_eq!(context.stroke_received, 1);
+    }
+
+    #[test]
+    fn stroke_and_not_close() {
+        let mut context = ContextImpl::new();
+        let node = Node {
+            fill: false,
+            close: false,
+            ..Default::default()
+        };
+        Arc::render(&mut context, node);
+        assert_eq!(context.translate_received, 1);
+        assert_eq!(context.set_source_rgba_received, 1);
+        assert_eq!(context.scale_received, 1);
+        assert_eq!(context.move_to_received, 0);
+        assert_eq!(context.line_to_received, 0);
+        assert_eq!(context.arc_received, 1);
+        assert_eq!(context.fill_received, 0);
+        assert_eq!(context.set_line_width_received, 1);
+        assert_eq!(context.set_line_cap_received, 1);
+        assert_eq!(context.stroke_received, 1);
+    }
+}
