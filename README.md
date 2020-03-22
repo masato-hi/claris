@@ -1,6 +1,20 @@
 # claris
 Generate an image from Yaml.
 
+
+## Usage
+```
+claris [options] FILE
+```
+
+```
+Options:
+    -d [directory]      Set output directory. default: Same directory as input
+                        file.
+    -f                  Overwrite output file.
+    -h, --help          Print usage
+```
+
 ## Example
 Source:
 ```
