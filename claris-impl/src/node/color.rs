@@ -50,9 +50,8 @@ mod tests {
     #[test]
     #[should_panic(expected = "invalid color format '#AABBCG'")]
     fn invalid_color_format() {
-        match Color::parse("#AABBCG".to_string()) {
-            Err(e) => panic!(e.to_string()),
-            _ => (),
+        if let Err(e) = Color::parse("#AABBCG".to_string()) {
+            panic!(e.to_string())
         }
     }
 }

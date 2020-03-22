@@ -41,7 +41,7 @@ fn parse_args() -> Args {
         print_usage(&program, &opts);
     }
 
-    if matches.free.len() < 1 {
+    if matches.free.is_empty() {
         print_usage(&program, &opts);
     }
 
@@ -58,8 +58,8 @@ fn parse_args() -> Args {
         .map(|d| -> PathBuf { PathBuf::new().join(d) });
 
     Args {
-        inputs: inputs,
-        output_dir: output_dir,
+        inputs,
+        output_dir,
         force: matches.opt_present("f"),
     }
 }
@@ -95,7 +95,6 @@ fn exec_once(input: &Path, output_dir: Option<PathBuf>, force: bool) {
     }
 
     let output_filename = input
-        .clone()
         .to_path_buf()
         .file_name()
         .map(|f| -> PathBuf {
