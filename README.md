@@ -1,6 +1,10 @@
 # claris
 Generate an image from Yaml.
 
+## Install
+```
+cargo install --git https://github.com/masato-hi/claris.git
+```
 
 ## Usage
 ```
