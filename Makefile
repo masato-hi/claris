@@ -1,4 +1,7 @@
 CARGO_BUILD_JOBS := $(nproc)
+run:
+	cargo run ${ARGS}
+
 build:
 	cargo build
 
@@ -23,4 +26,4 @@ clean:
 install:
 	cargo install --git https://github.com/masato-hi/claris.git
 
-.PHONY: build test style-check lint coverage bench install
+.PHONY: run build test style-check lint coverage bench install

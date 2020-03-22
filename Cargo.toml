@@ -7,7 +7,9 @@ publish = false
 
 [dependencies]
 claris-impl = { version = "0.1.0", path = "claris-impl"}
-simple_logger = "1.6.0"
+simple_logger = "1.6"
+getopts = "0.2"
+log = { version = "0.4", features = ["release_max_level_error"] }
 
 [workspace]
 members = ["claris-impl"]
