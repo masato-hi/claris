@@ -20,3 +20,24 @@ impl Text {
         context.stroke();
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Text;
+    use crate::node::Text as Node;
+    use crate::testing_helpers::stub::ContextImpl;
+
+    #[test]
+    fn render() {
+        let mut context = ContextImpl::new();
+        let node = Node::default();
+        Text::render(&mut context, node);
+        assert_eq!(context.translate_received, 1);
+        assert_eq!(context.set_source_rgba_received, 1);
+        assert_eq!(context.scale_received, 1);
+        assert_eq!(context.select_font_face_received, 1);
+        assert_eq!(context.set_font_size_received, 1);
+        assert_eq!(context.show_text_received, 1);
+        assert_eq!(context.stroke_received, 1);
+    }
+}
